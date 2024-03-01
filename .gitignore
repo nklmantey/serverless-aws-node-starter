@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+.webpack
+coverage
+.serverless
+yarn-error.log
+.idea
+.nyc_output

@@ -1,0 +1,2 @@
+lts/gallium
+scripts-prepend-node-path=true

@@ -1,0 +1,38 @@
+app: serverless-aws-node-starter
+service: serverless-aws-node-starter
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+custom:
+  clusterName: ${file(./package.json):clusterName}
+  longRunningFxnTimeout: 300
+  apiGatewayFxnTimeout: 29
+  logRetentionInDays: 5
+  maxPreviousDeploymentArtifacts: 2  
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${self:custom.clusterName}
+  region: ${opt:region, 'eu-west-1'}
+  stackName: ${self:custom.clusterName}-${self:service}
+  apiName: ${self:custom.clusterName}-${self:service}
+
+functions:
+  hello:
+    handler: handler.endpointRoute
+    environment:
+      ROUTE_KEY: hello
+    events:
+      - http:
+          path: /hello
+          method: get
+          private: false
+          cors:
+            origin: '*'
+            headers:
+              - '*'
